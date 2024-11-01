@@ -29,19 +29,18 @@ export default function Component() {
           <GraduationCap className="h-6 w-6 text-primary" />
           <span className="ml-2 font-bold">EduCrate</span>
         </Link>
+      
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Features
-          </Link>
+         
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Courses
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Pricing
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             About
           </Link>
+          <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+            Register
+          </Button>
         </nav>
         <Button variant="ghost" size="icon" className="ml-4" onClick={toggleTheme}>
           {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
@@ -131,7 +130,7 @@ export default function Component() {
                   alt="Course thumbnail"
                   className="aspect-video object-cover rounded-t-lg"
                   height={200}
-                  src="/placeholder.svg"
+                  src="/ml.jpeg"
                   width={400}
                 />
                 <CardHeader>
@@ -144,7 +143,7 @@ export default function Component() {
                     className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 relative overflow-hidden group"
                   >
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-100 group-hover:opacity-0">
-                      $99.99
+                      INR 499.00 
                     </span>
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100">
                       Enroll Now
@@ -157,7 +156,7 @@ export default function Component() {
                   alt="Course thumbnail"
                   className="aspect-video object-cover rounded-t-lg"
                   height={200}
-                  src="/placeholder.svg"
+                  src="/web-dev.jpeg"
                   width={400}
                 />
                 <CardHeader>
@@ -170,7 +169,7 @@ export default function Component() {
                     className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 relative overflow-hidden group"
                   >
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-100 group-hover:opacity-0">
-                      $149.99
+                    INR 499.00 
                     </span>
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100">
                       Enroll Now
@@ -183,7 +182,7 @@ export default function Component() {
                   alt="Course thumbnail"
                   className="aspect-video object-cover rounded-t-lg"
                   height={200}
-                  src="/placeholder.svg"
+                  src="/digital.jpeg"
                   width={400}
                 />
                 <CardHeader>
@@ -196,7 +195,7 @@ export default function Component() {
                     className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 relative overflow-hidden group"
                   >
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-100 group-hover:opacity-0">
-                      $79.99
+                    INR 499.00 
                     </span>
                     <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100">
                       Enroll Now
