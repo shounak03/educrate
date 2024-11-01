@@ -10,3 +10,14 @@ export const registerSchema = z.object({
     password:z.string().min(6,{message:"Password too short, minimum length: 6"}),
     role:z.string()
 })
+export const CreateCourseSchema = z.object({
+    name: z.string(),
+    description: z.string(),
+    price: z.number(),
+    duration: z.number(),
+    thumbnail: z.string()
+})
+export const courseContentSchema = z.object({
+    lectures: z.string(),
+    docx: z.string()
+})
