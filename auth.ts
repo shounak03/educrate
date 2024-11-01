@@ -5,12 +5,16 @@ import Credentials from "next-auth/providers/credentials";
 import { loginSchema } from "./schema";
 import { User } from "./models/user.model";
 import connectDB from "./lib/dbConnect";
+import Google from "next-auth/providers/google";
 
 
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
+            
+        Google({ clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET }),
+        
         Credentials({
             id: "credentials",
             name: "Credentials",
