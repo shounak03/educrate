@@ -6,7 +6,7 @@ import { NextRequest,NextResponse } from "next/server"
 export const POST = async (req:NextRequest, res:NextResponse) => {
     const session = await auth()
     if(!session?.user?.id)
-        return NextResponse.json({message:"User not found"},{status:404})
+        return NextResponse.json({success:false,message:"User not found"},{status:404})
     try {
 
         const adminId = session?.user?.id;
@@ -19,7 +19,7 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
         const { name, description,price,duration, thumbnail } = CreateCourseSchema.parse(req.body)
 
         if(!name ||  !description || !price || !duration || !thumbnail)
-            return NextResponse.json({ message: "Please fill all fields" })
+            return NextResponse.json({ success:true,message: "Please fill all fields" },{status:400})
 
         const newCourse = await Course.create({
             creator:adminId,
@@ -29,8 +29,8 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
             duration,
             thumbnail
         })
-        NextResponse.json({newCourse,message:"Course Created successfully"},{status:200})
+        NextResponse.json({success:true,newCourse,message:"Course Created successfully"},{status:200})
     } catch (error) {
-        NextResponse.json({error:"Something went wrong"},{status:500})
+        NextResponse.json({success:false,error:"Something went wrong"},{status:500})
     }
 }

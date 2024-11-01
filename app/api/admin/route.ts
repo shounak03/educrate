@@ -8,7 +8,7 @@ export const Get =async (req:NextRequest, res:NextResponse) => {
 
     const session = await auth();
     if(!session?.user?.id)
-        return NextResponse.json({message:"User not found"},{status:404})
+        return NextResponse.json({success:false,message:"User not found"},{status:404})
     try {
 
         const adminId = session?.user?.id;

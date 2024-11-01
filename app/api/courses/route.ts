@@ -49,9 +49,9 @@ export const GET = async (
             }
         ]);
 
-        return NextResponse.json({courses,message:"all courses fetched"},{status:200})
+        return NextResponse.json({success:true,courses,message:"all courses fetched"},{status:200})
     } catch (error) {
         console.log("Error fetching courses:", error);
-        return NextResponse.json({message:"Error fetching courses"},{status:500})
+        return NextResponse.json({success:false,message:"Error fetching courses"},{status:500})
     }
 };

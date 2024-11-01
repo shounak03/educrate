@@ -6,16 +6,16 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     try {
         const courseId = req.nextUrl.searchParams.get("CourseId")
         if(!courseId)
-            return NextResponse.json({message:"CourseId is required"})
+            return NextResponse.json({success:false,message:"CourseId is required"},{status:400})
         
         const course = await Course.findById(courseId);
         if(!course)
-            return NextResponse.json({message:"Course not found"})
+            return NextResponse.json({success:false,message:"Course not found"},{status:404})
         
         const {lectures,docx} = courseContentSchema.parse(req.body)
         
         if(!lectures)
-            return NextResponse.json({message:"Please fill all fields"})
+            return NextResponse.json({success:false,message:"Please fill all fields"},{status:400})
 
         const newContent = {
             videoLecture: lectures,
@@ -28,10 +28,10 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
             { $push: { contents: newContent } },
             { new: true } 
         );
-        NextResponse.json({message:"course content updated"})
+        NextResponse.json({success:true,message:"course content updated"},{status:200})
 
     } catch (error) {
         console.log(error);
-        NextResponse.json({error:"Something went wrong"})
+        NextResponse.json({success:false,error:"Something went wrong"},{status:500})
     }
 }
