@@ -1,6 +1,3 @@
-
-
-import Appbar from "@/components/Appbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookOpen, GraduationCap, LayoutDashboard, Moon, Star, Sun, Users } from "lucide-react"

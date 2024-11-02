@@ -22,7 +22,7 @@ export default function Appbar() {
 
          <nav className="dark:bg-gray-900 border-b border-gray-800 px-4 py-3"> 
               <div className="container mx-auto flex ">
-                    <Link className="flex items-center justify-center" href="#">
+                    <Link className="flex items-center justify-center" href="/">
                         <GraduationCap className="h-6 w-6 text-primary" />
                         <span className="ml-2 font-bold">EduCrate</span>
                     </Link>
@@ -35,14 +35,18 @@ export default function Appbar() {
                         <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="#">
                             About
                         </Link>
-                        <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
-                            Register
-                        </Button>
+                        <Link href="/auth/register">
+                            <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                Register
+                            </Button>
+                        </Link>
                     </nav>
+                    
                     <Button variant="ghost" size="icon" className="ml-4" onClick={toggleTheme}>
                         {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
                         <span className="sr-only">Toggle theme</span>
                     </Button>
+                    
             </div>
          </nav>
 

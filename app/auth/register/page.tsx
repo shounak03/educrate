@@ -87,15 +87,15 @@ const RegisterForm = () => {
                     />
                     <div>
 
-                    <label htmlFor="user-role" className="mr-2">Select Role:</label><br />
+                    <label htmlFor="user-role" className="mr-2 dark:text-gray-400 ">Select Role:</label><br />
                     <select
                         id="user-role"
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 border rounded  dark:text-white dark:bg-black "
                         >
-                        <option value="">Choose an option</option>
-                        <option value="learner">Learner</option>
+                        <option value="" className='dark:text-gray-800 dark:bg-gray-900'>Choose an option</option>
+                        <option value="learner" className='dark:text-black'>Learner</option>
                         <option value="creator">Creator</option>
                     </select>
                     </div>
