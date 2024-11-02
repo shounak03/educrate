@@ -1,52 +1,19 @@
-'use client'
 
+
+import Appbar from "@/components/Appbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookOpen, GraduationCap, LayoutDashboard, Moon, Star, Sun, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState, useEffect } from "react"
 
 export default function Component() {
-  const [theme, setTheme] = useState('light')
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [theme])
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
+  
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <header className="px-4 lg:px-6 h-14 flex items-center border-b border-gray-200 dark:border-gray-800">
-        <Link className="flex items-center justify-center" href="#">
-          <GraduationCap className="h-6 w-6 text-primary" />
-          <span className="ml-2 font-bold">EduCrate</span>
-        </Link>
-      
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-         
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Courses
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            About
-          </Link>
-          <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
-            Register
-          </Button>
-        </nav>
-        <Button variant="ghost" size="icon" className="ml-4" onClick={toggleTheme}>
-          {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </header>
+    <>
+    <Appbar/>
+    <div className="flex flex-col min-h-screen justify-center items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gray-100 dark:bg-gray-800">
           <div className="container px-4 md:px-6">
@@ -293,5 +260,6 @@ export default function Component() {
         </nav>
       </footer>
     </div>
+    </>
   )
 }
