@@ -6,6 +6,7 @@ import { loginSchema } from "./schema";
 import { User } from "./models/user.model";
 import connectDB from "./lib/dbConnect";
 import Google from "next-auth/providers/google";
+import { NextResponse } from "next/server";
 
 
 
@@ -46,7 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         throw new CredentialsSignin({ cause: "Invalid email or password" });
                     }
 
-                    return user;
+                    return NextResponse.json({success:true,user,message:"Logged-In Successfully"},{status:200})
                 } catch (error: any) {
                     throw new CredentialsSignin({ cause: error.message });
                 }
