@@ -21,8 +21,9 @@ export const LoginForm = ()=>{
             if(!email || !password)
                 return setError("Please provide both email and password")
             const validatedData = loginSchema.parse({ email, password });
-
+            console.log(validatedData);
             const error = await loginHanlder(validatedData.email,validatedData.password);
+
             console.log(error);
             
             if(!error){
@@ -31,7 +32,7 @@ export const LoginForm = ()=>{
                 router.refresh()
             }
             else{
-                return setError("Invalid email or password ");
+                return setError("something went wrong");
             }
         }}>
         <CardContent className="space-y-4">

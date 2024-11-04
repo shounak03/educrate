@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { signIn } from '@/auth';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";

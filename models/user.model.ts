@@ -16,7 +16,7 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: true,
-        enum: ['creator', 'user']
+        enum: ['creator', 'learner']
     },
     purchasedCourses: [{
         course: {
@@ -34,4 +34,6 @@ const userSchema = new Schema({
     }],
 },{timestamps:true})
 
-export const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User = mongoose.models?.User || mongoose.model('User', userSchema);
+
+export default User;

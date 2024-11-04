@@ -1,28 +1,34 @@
 import { registerSchema } from "@/schema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
-import { User } from "@/models/user.model";
+import  User  from "@/models/user.model";
+import {connectDB} from "@/lib/dbConnect";
 
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: Request, res: NextResponse) => {
     try {
-        const { data } = registerSchema.safeParse(req.body)
- 
+        await connectDB();
+        
+        const body = await req.json();
+        
+        console.log(body);
+    
+        const { email, password, fullname, role } = registerSchema.parse(body);
 
-        if (!data?.fullname || !data?.email || !data?.password || !data?.role) {
-            return NextResponse.json({ message: "Please fill all fields" },{status:200})
+        if (!email || !password || !fullname || !role) {
+            return NextResponse.json({ message: "Please fill all fields" },{status:400})
         }
 
-        const hashedPassword = await bcrypt.hash(data?.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
-            email: data?.email,
-            fullname: data?.fullname,
+            email: email,
+            fullname: fullname,
             password: hashedPassword,
-            role: data?.role
+            role: role
         })
 
-        return NextResponse.json({ message: "User registered successfully" },{status:200})
+        return NextResponse.json({user, message: "User registered successfully" },{status:200})
 
     } catch (error) {
         console.log(error);

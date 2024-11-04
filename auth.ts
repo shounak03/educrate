@@ -1,21 +1,31 @@
 import NextAuth, { CredentialsSignin } from "next-auth"
-
-import bcrypt from 'bcryptjs';
 import Credentials from "next-auth/providers/credentials";
 import { loginSchema } from "./schema";
-import { User } from "./models/user.model";
-import connectDB from "./lib/dbConnect";
+import { connectDB, client } from "./lib/dbConnect";
 import Google from "next-auth/providers/google";
-import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs"
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import User from "./models/user.model";
 
-
+// declare module "next-auth" {
+//     interface User {
+//       role?: string
+//     }
+//     interface Session {
+//       user: {
+//         role?: string
+//         id?: string
+//       } 
+//     }
+//   }
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    // adapter: MongoDBAdapter(client),
     providers: [
-            
+
         Google({ clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET }),
-        
+
         Credentials({
             id: "credentials",
             name: "Credentials",
@@ -24,39 +34,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: { type: "password", label: "Password" }
             },
             async authorize(credentials) {
-                try {
-                    await connectDB();
-                    const { email, password } = await loginSchema.parseAsync(credentials);
+                // await connectDB();
+                const { email, password } = await loginSchema.parseAsync(credentials);
 
-                    if (!email || !password) {
-                        throw new CredentialsSignin({ cause: "Please provide both email and password" });
-                    }
+                const user = await User.findOne({ email }).select('-password')
 
-                    const user = await User.findOne({ email });
-
-                    if (!user) {
-                        throw new CredentialsSignin({ cause: "User not found" });
-                    }
-                    if(!user.password)
-                        throw new CredentialsSignin({ cause: "User not found" });
-
-
-                    const isPasswordValid = await bcrypt.compare(password, user.password );
-
-                    if (!isPasswordValid) {
-                        throw new CredentialsSignin({ cause: "Invalid email or password" });
-                    }
-
-                    return NextResponse.json({success:true,user,message:"Logged-In Successfully"},{status:200})
-                } catch (error: any) {
-                    throw new CredentialsSignin({ cause: error.message });
+                if (!user) {
+                    throw new CredentialsSignin("User not found")
                 }
+
+                if (!user.password) {
+                    throw new CredentialsSignin("Invalid login method")
+                }
+
+                const isPasswordValid = await bcrypt.compare(password, user.password)
+
+                if (!isPasswordValid) {
+                    throw new CredentialsSignin("Incorrect Email or Password")
+                }
+                console.log(user);
+
+                return { id: user._id, email: user.email };
             }
         })
     ],
-    pages: {
-        signIn: '/auth/login',
-    },
+
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
@@ -65,11 +67,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return token;
         },
         async session({ session, token }) {
-            if (session.user) {
-                session.user.id = token.id;
-            }
+            //@ts-ignore
+            session.user.id = token.id;
             return session;
-        }
+        },
+    },
+    pages: {
+        signIn: '/auth/login',
     },
     secret: process.env.AUTH_SECRET,
-})
+});

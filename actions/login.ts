@@ -1,21 +1,19 @@
 'use server'
 
 import { signIn } from "@/auth";
+import { connectDB } from "@/lib/dbConnect";
 import { CredentialsSignin } from "next-auth";
 
 const  loginHanlder  = async (email:string, password:string) => {
-
+    connectDB();
     try {
-        const login = await signIn('credentials', {
+        await signIn('credentials', {
             email,
             password,
         });
         
-        console.log("login");
-        console.log(login);
-        return login  
-    } catch (error:any) {
-      const err = error as CredentialsSignin
+    } catch (error:any) {     
+       const err = error as CredentialsSignin
       return err.cause
     }
   };
