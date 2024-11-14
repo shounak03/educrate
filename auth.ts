@@ -53,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }
                 console.log(user);
 
-                return { id: user._id, email: user.email, role:user.role };
+                return { id: user._id, email: user.email, role:user.role, fullname : user.fullname }
             }
         })
     ],
@@ -62,14 +62,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
-                token.role = user.role;  // Add user role to token
+                token.role = user.role;
+                token.fullname = user.fullname;  
             }
             return token;
         },
         async session({ session, token }) {
             // Add user ID and role to session
             session.user.id = token.id;
-            session.user.role = token.role;  // Add role to session
+            session.user.role = token.role;
+            session.user.fullname = token.fullname;
             return session;
         },
     },

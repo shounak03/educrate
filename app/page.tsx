@@ -32,10 +32,14 @@ export default function Component() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Link href='/auth/register'>
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">Get Started</Button>
-                  <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                    Browse Courses
-                  </Button>
+                </Link>
+                  <Link href='/courses'>
+                    <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                      Browse Courses
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
