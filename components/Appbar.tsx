@@ -8,8 +8,10 @@ import { auth } from '@/auth';
 export default async function Appbar() {
 
     const session = await auth();
-    console.log("session = ", session);
+
     const user = session?.user?.id;
+    const userRole = session?.user?.role;
+
 
     return (
 
@@ -27,11 +29,26 @@ export default async function Appbar() {
                     </Link>
 
                     {user ? (
-                        <Link href="/auth/register">
-                            <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
-                                Logout
-                            </Button>
-                        </Link>
+                        userRole === 'creator' ?(
+                            <>
+                            <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/dashboard">
+                                Dashboard
+                            </Link>
+                            <Link href="/auth/login">
+                                <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                    Logout
+                                </Button>
+                            </Link>
+
+                        </>
+                        ):(
+                            <Link href="/auth/login">
+                                <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                    Logout
+                                </Button>
+                            </Link>
+                        )
+                        
                     ) : (<>
                         <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/about">
                             About
@@ -43,7 +60,7 @@ export default async function Appbar() {
                         </Link>
                     </>
                     )}
-                    
+
                 </nav>
             </div>
         </nav>

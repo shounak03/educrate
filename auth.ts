@@ -6,6 +6,7 @@ import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs"
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import User from "./models/user.model";
+import { log } from "console";
 
 // declare module "next-auth" {
 //     interface User {
@@ -34,17 +35,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: { type: "password", label: "Password" }
             },
             async authorize(credentials) {
-                // await connectDB();
                 const { email, password } = await loginSchema.parseAsync(credentials);
-
-                const user = await User.findOne({ email }).select('-password')
-
+                
+                const user = await User.findOne({ email })
                 if (!user) {
                     throw new CredentialsSignin("User not found")
                 }
 
                 if (!user.password) {
-                    throw new CredentialsSignin("Invalid login method")
+                    throw new CredentialsSignin("Password not found")
                 }
 
                 const isPasswordValid = await bcrypt.compare(password, user.password)
@@ -54,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }
                 console.log(user);
 
-                return { id: user._id, email: user.email };
+                return { id: user._id, email: user.email, role:user.role };
             }
         })
     ],
@@ -63,15 +62,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.role = user.role;  // Add user role to token
             }
             return token;
         },
         async session({ session, token }) {
-            //@ts-ignore
+            // Add user ID and role to session
             session.user.id = token.id;
+            session.user.role = token.role;  // Add role to session
             return session;
         },
     },
+    
     pages: {
         signIn: '/auth/login',
     },

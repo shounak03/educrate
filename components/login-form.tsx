@@ -8,7 +8,7 @@ import { useState } from "react"
 import { loginHanlder } from "@/actions/login"
 import { FormError } from "./form-error"
 import { FormSuccess } from "./form-success"
-import {useRouter} from "next/navigation"
+import {useRouter,redirect} from "next/navigation"
 
 export const LoginForm = ()=>{
     const router = useRouter()
@@ -29,7 +29,7 @@ export const LoginForm = ()=>{
             if(!error){
 
                 setSuccess("Logged-In Successfully")
-                router.refresh()
+                redirect("/courses")
             }
             else{
                 return setError("something went wrong");
