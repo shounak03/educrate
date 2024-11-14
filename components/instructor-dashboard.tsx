@@ -8,15 +8,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BarChart, BookOpen, Users } from 'lucide-react'
+import Link from 'next/link'
 
-// Mock data for running courses
+
 const runningCourses = [
-  { id: 1, title: "Advanced React Patterns", students: 120, revenue: 5999.99, lastUpdated: "2024-03-15" },
-  { id: 2, title: "Machine Learning Fundamentals", students: 85, revenue: 4249.99, lastUpdated: "2024-03-10" },
+  { id: 1, title: "Advanced React", students: 120, revenue: 5999.99, lastUpdated: "2024-03-15" },
+  { id: 2, title: "TypeScript", students: 85, revenue: 4249.99, lastUpdated: "2024-03-10" },
   { id: 3, title: "Data Structures and Algorithms", students: 150, revenue: 7499.99, lastUpdated: "2024-03-18" },
 ]
 
 export default function InstructorDashboard({name}:{name:string}) {
+
   const [isNewCourseDialogOpen, setIsNewCourseDialogOpen] = useState(false)
 
   return (
@@ -117,7 +119,9 @@ export default function InstructorDashboard({name}:{name:string}) {
                   <span className="font-semibold">${course.revenue.toFixed(2)}</span>
                 </div>
               </div>
-              <Button className="w-full mt-4" variant="outline">Manage Course</Button>
+              <Link href={`/admin/course/${course.title}`}>
+                <Button className="w-full mt-4" variant="outline">Manage Course</Button>
+              </Link>
             </CardContent>
           </Card>
         ))}

@@ -106,9 +106,11 @@ export default function ExploreCourses() {
                       </div>
                     </div>
                   </CardContent>
-                  <Button className="mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                    Enroll Now
-                  </Button>
+                  <Link href={`/courses/${course.title}`}>
+                    <Button className="mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                      Enroll Now
+                    </Button>
+                  </Link>
                 </Card>
               ))}
             </div>

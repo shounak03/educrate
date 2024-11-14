@@ -4,13 +4,16 @@ import { GraduationCap } from 'lucide-react'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { auth } from '@/auth';
-
+interface users{
+    role:string
+}
 export default async function Appbar() {
 
     const session = await auth();
 
     const user = session?.user?.id;
-    const userRole = session?.user?.role;
+    //@ts-ignore
+    const userRole = session?.user?.role
 
 
     return (
@@ -31,7 +34,7 @@ export default async function Appbar() {
                     {user ? (
                         userRole === 'creator' ?(
                             <>
-                            <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/dashboard">
+                            <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/admin/dashboard">
                                 Dashboard
                             </Link>
                             <Link href="/auth/login">
