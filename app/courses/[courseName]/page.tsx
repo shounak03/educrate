@@ -1,9 +1,9 @@
 import CourseDetails from "@/components/course-details"
 
-const Page = ({ params: { courseName } }: { params: { courseName: string } }) => {
+const Page = ({ params: { courseId } }: { params: { courseId: object } }) => {
     return (
         <div>
-            <CourseDetails name={courseName as string} />
+            <CourseDetails courseId={courseId as object} />
         </div>
     )
 }

@@ -71,7 +71,7 @@ const courseData = {
   ],
 }
 
-export default function CourseDetails({name}:{name: string}) {
+export default function CourseDetails({courseId}:{courseId: object}) {
   const [progress, setProgress] = useState(35)
 
   return (

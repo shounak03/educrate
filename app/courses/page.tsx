@@ -50,75 +50,79 @@ export default function ExploreCourses() {
 
   return (
     <main className="flex-1 py-12 px-4 md:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">Explore Our Courses</h1>
-        <div className="max-w-4xl mx-auto mb-8 flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-grow">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <Input
-              className="pl-8"
-              placeholder="Search courses..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Filter by level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Levels</SelectItem>
-              <SelectItem value="Beginner">Beginner</SelectItem>
-              <SelectItem value="Intermediate">Intermediate</SelectItem>
-              <SelectItem value="Advanced">Advanced</SelectItem>
-            </SelectContent>
-          </Select>
+      <h1 className="text-3xl font-bold mb-8 text-center">Explore Our Courses</h1>
+      <div className="max-w-4xl mx-auto mb-8 flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-grow">
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <Input
+            className="pl-8"
+            placeholder="Search courses..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-        {filteredCategories.map((category) => (
-          <section key={category.name} className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">{category.name}</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {category.courses.map((course) => (
-                <Card key={course.id} className="flex flex-col">
-                  <CardHeader>
-                    <Image
-                      src={`/placeholder.svg?text=${encodeURIComponent(course.title)}`}
-                      alt={course.title}
-                      width={400}
-                      height={200}
-                      className="rounded-t-lg object-cover"
-                    />
-                  </CardHeader>
-                  <CardContent className="flex-grow flex flex-col">
-                    <CardTitle>{course.title}</CardTitle>
-                    <CardDescription className="mb-4">{course.description}</CardDescription>
-                    <div className="mt-auto space-y-2 text-sm">
-                      <div className="flex items-center">
-                        <BookOpen className="w-4 h-4 mr-2 text-primary" />
-                        <span>{course.level}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-2 text-primary" />
-                        <span>{course.duration}</span>
-                      </div>
-                      <div className="flex items-center">
-                        {/* <DollarSign className="w-4 h-4 mr-2 text-primary" /> */}
-                        <span>INR {course.price.toFixed(2)}</span>
-                      </div>
+        <Select value={selectedLevel} onValueChange={setSelectedLevel}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Filter by level" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Levels</SelectItem>
+            <SelectItem value="Beginner">Beginner</SelectItem>
+            <SelectItem value="Intermediate">Intermediate</SelectItem>
+            <SelectItem value="Advanced">Advanced</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      {filteredCategories.map((category) => (
+        <section key={category.name} className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">{category.name}</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {category.courses.map((course) => (
+              <Card key={course.id} className="flex flex-col">
+                <CardHeader>
+                  <Image
+                    src={`/placeholder.svg?text=${encodeURIComponent(course.title)}`}
+                    alt={course.title}
+                    width={400}
+                    height={200}
+                    className="rounded-t-lg object-cover"
+                  />
+                </CardHeader>
+                <CardContent className="flex-grow flex flex-col">
+                  <CardTitle>{course.title}</CardTitle>
+                  <CardDescription className="mb-4">{course.description}</CardDescription>
+                  <div className="mt-auto space-y-2 text-sm">
+                    <div className="flex items-center">
+                      <BookOpen className="w-4 h-4 mr-2 text-primary" />
+                      <span>{course.level}</span>
                     </div>
-                  </CardContent>
-                  <Link href={`/courses/${course.title}`}>
-                    <Button className="mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                      Enroll Now
+                    <div className="flex items-center">
+                      <Clock className="w-4 h-4 mr-2 text-primary" />
+                      <span>{course.duration}</span>
+                    </div>
+                    
+                  </div>
+                </CardContent>
+                <Link href={`/courses/${course.title}`}>
+                <Button
+                      className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 relative overflow-hidden group"
+                    >
+                      <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-100 group-hover:opacity-0">
+                        INR 499.00
+                      </span>
+                      <span className="absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100">
+                        Enroll Now
+                      </span>
                     </Button>
-                  </Link>
-                </Card>
-              ))}
-            </div>
-          </section>
-        ))}
-        {filteredCategories.length === 0 && (
-          <p className="text-center text-gray-500 dark:text-gray-400">No courses found matching your criteria.</p>
-        )}
-      </main>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </section>
+      ))}
+      {filteredCategories.length === 0 && (
+        <p className="text-center text-gray-500 dark:text-gray-400">No courses found matching your criteria.</p>
+      )}
+    </main>
   )
 }

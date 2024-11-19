@@ -3,10 +3,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BarChart, BookOpen, Users } from 'lucide-react'
 import Link from 'next/link'
 
@@ -17,56 +13,18 @@ const runningCourses = [
   { id: 3, title: "Data Structures and Algorithms", students: 150, revenue: 7499.99, lastUpdated: "2024-03-18" },
 ]
 
-export default function InstructorDashboard({name}:{name:string}) {
-
-  const [isNewCourseDialogOpen, setIsNewCourseDialogOpen] = useState(false)
+export default function InstructorDashboard({ name }: { name: string }) {
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold heading uppercase text-purple-700">{name}'s Dashoboard</h1>
-        <Dialog open={isNewCourseDialogOpen} onOpenChange={setIsNewCourseDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Start New Course
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create a New Course</DialogTitle>
-              <DialogDescription>
-                Fill in the details to start creating your new course.
-              </DialogDescription>
-            </DialogHeader>
-            <form className="space-y-4">
-              <div>
-                <Label htmlFor="course-title">Course Title</Label>
-                <Input id="course-title" placeholder="Enter course title" />
-              </div>
-              <div>
-                <Label htmlFor="course-description">Course Description</Label>
-                <Input id="course-description" placeholder="Enter course description" />
-              </div>
-              <div>
-                <Label htmlFor="course-category">Category</Label>
-                <Select>
-                  <SelectTrigger id="course-category">
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="web-development">Web Development</SelectItem>
-                    <SelectItem value="data-science">Data Science</SelectItem>
-                    <SelectItem value="machine-learning">Machine Learning</SelectItem>
-                    <SelectItem value="mobile-development">Mobile Development</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button type="submit" className="w-full">Create Course</Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Link href={`/admin/course/create`}>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Start New Course
+          </Button>
+        </Link>
       </div>
-
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
