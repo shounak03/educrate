@@ -12,7 +12,7 @@ export default auth(async (request) => {
     const session = await auth();
     const userRole = session?.user?.role;
     const isAuthenticated = !!request.auth;
-    console.log(userRole);
+    // console.log(userRole);
     
     const path = request.nextUrl.pathname
 
