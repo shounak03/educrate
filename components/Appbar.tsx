@@ -1,11 +1,11 @@
-'use server'
+
 import { GraduationCap } from 'lucide-react'
 
 import { Button } from './ui/button'
 import Link from 'next/link'
-import { auth } from '@/auth';
-interface users{
-    role:string
+import { auth, signOut } from '@/auth';
+interface users {
+    role: string
 }
 export default async function Appbar() {
 
@@ -32,26 +32,38 @@ export default async function Appbar() {
                     </Link>
 
                     {user ? (
-                        userRole === 'creator' ?(
+                        userRole === 'creator' ? (
                             <>
-                            <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/admin/dashboard">
-                                Dashboard
-                            </Link>
-                            <Link href="/auth/login">
-                                <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/admin/dashboard">
+                                    Dashboard
+                                </Link>
+                                <form
+                                action={async () => {
+                                    "use server"
+                                    await signOut()
+                                }}
+                            >
+                                <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
                                     Logout
                                 </Button>
-                            </Link>
 
-                        </>
-                        ):(
-                            <Link href="/auth/login">
-                                <Button size={"sm"} variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                            </form>
+
+                            </>
+                        ) : (
+                            <form
+                                action={async () => {
+                                    "use server"
+                                    await signOut()
+                                }}
+                            >
+                                <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
                                     Logout
                                 </Button>
-                            </Link>
+
+                            </form>
                         )
-                        
+
                     ) : (<>
                         <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/about">
                             About

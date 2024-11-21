@@ -14,7 +14,7 @@ const runningCourses = [
 ]
 
 export default function InstructorDashboard({ name }: { name: string }) {
-
+  
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">

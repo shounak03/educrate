@@ -1,8 +1,5 @@
 
-export const publicRoutes = [
-    "/",
-    "/courses"
-];
+export const publicRoutes = ['/', '/login','/courses/[id]', '/signup', '/api'] 
 
 export const authRoutes = [
     "/auth/login",
@@ -13,7 +10,7 @@ export const apiAuthPrefix = "/api/auth";
 export const adminRoutePrefix = "/admin";
 
 export const USER_LOGIN_REDIRECT = "/"; 
-export const ADMIN_LOGIN_REDIRECT = "/admin";
+export const ADMIN_LOGIN_REDIRECT = "admin/dashboard";
 
 
 
