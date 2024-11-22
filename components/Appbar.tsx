@@ -4,6 +4,7 @@ import { GraduationCap } from 'lucide-react'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { auth, signOut } from '@/auth';
+
 interface users {
     role: string
 }
@@ -46,7 +47,6 @@ export default async function Appbar() {
                                 <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
                                     Logout
                                 </Button>
-
                             </form>
 
                             </>

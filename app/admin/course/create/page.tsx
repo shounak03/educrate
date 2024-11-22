@@ -1,17 +1,21 @@
+'use server'
 
-import AddContent from "@/components/add-content"
+import { auth } from "@/auth"
 import CreateCourse from "@/components/create-course"
-import { Button } from "@/components/ui/button"
 
 
-export default function Page() {
+
+export default async function Page() {
+  const session = await auth()
+  const id = session?.user?.id
+
   
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Create New Course</h1>
-      <CreateCourse/>
-      {/* <AddContent/> */}
-      
+
+      <CreateCourse adminId={id as string}/> 
+
     </div>
   )
 }

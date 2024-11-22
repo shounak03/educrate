@@ -29,7 +29,8 @@ export const LoginForm = ()=>{
             if(!error){
 
                 setSuccess("Logged-In Successfully")
-                redirect("/courses")
+                router.refresh()
+                router.push("/")
             }
             else{
                 return setError("something went wrong");
