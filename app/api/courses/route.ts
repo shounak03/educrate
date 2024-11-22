@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/dbConnect";
 import {Course}  from "@/models/courses.model"; 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -5,6 +6,7 @@ export const GET = async (
     req: NextRequest,
     res: NextResponse,) => {
     try {
+        connectDB();
         const courses = await Course.aggregate([
             {
                 // Calculate the average rating for each course
