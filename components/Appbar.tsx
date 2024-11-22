@@ -23,7 +23,7 @@ export default async function Appbar() {
             <div className="container mx-auto flex ">
                 <Link className="flex items-center justify-center" href="/">
                     <GraduationCap className="h-6 w-6 text-primary" />
-                    <span className="ml-2 font-bold">EduCrate</span>
+                    <span className="ml-2 font-bold">eduCrate</span>
                 </Link>
 
                 <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -57,9 +57,11 @@ export default async function Appbar() {
                                     await signOut()
                                 }}
                             >
-                                <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
-                                    Logout
-                                </Button>
+                                <Link href="/auth/login">
+                                    <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                        Logout
+                                    </Button>
+                                </Link>
 
                             </form>
                         )

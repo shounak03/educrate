@@ -18,13 +18,16 @@ export default function InstructorDashboard({ name }: { name: string }) {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold heading uppercase text-purple-700">{name}'s Dashoboard</h1>
+        <h1 className="text-3xl font-bold heading text-purple-700">Welcome Back, {name}</h1>
+        {/* shift to next line */}
+        
         <Link href={`/admin/course/create`}>
           <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
             Start New Course
           </Button>
         </Link>
       </div>
+      <h2 className='text-xl font-bold mb-4 py-4'>Here is your analytics dashboard</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
