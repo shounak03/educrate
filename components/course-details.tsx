@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -8,103 +8,133 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookOpen, Clock, PlayCircle, Star, Users } from 'lucide-react'
+import { BookOpen, Clock, PlayCircle, Star, User, UserCircle, Users } from 'lucide-react'
 
 // Mock data for the course
-const courseData = {
-  id: 1,
-  title: "Advanced React Patterns and Best Practices",
-  description: "Master advanced React concepts and patterns to build scalable and maintainable applications.",
-  instructor: {
-    name: "Sarah Johnson",
-    avatar: "/placeholder.svg?text=SJ",
-    bio: "Senior React Developer with 10+ years of experience in building large-scale applications.",
-  },
-  rating: 4.8,
-  studentsEnrolled: 1520,
-  lastUpdated: "2024-03-15",
-  language: "English",
-  price: 129.99,
-  duration: "6 weeks",
-  level: "Advanced",
-  prerequisites: ["Basic React knowledge", "JavaScript proficiency", "ES6+ features understanding"],
-  whatYoullLearn: [
-    "Advanced component patterns",
-    "State management techniques",
-    "Performance optimization",
-    "Testing strategies for React applications",
-    "Server-side rendering and Next.js",
-    "Custom hooks and their applications",
-  ],
-  curriculum: [
-    {
-      title: "Introduction to Advanced React Patterns",
-      lessons: [
-        { title: "Course Overview", duration: "10:00" },
-        { title: "Setting Up the Development Environment", duration: "15:00" },
-      ],
-    },
-    {
-      title: "Component Composition Patterns",
-      lessons: [
-        { title: "Compound Components", duration: "25:00" },
-        { title: "Render Props Pattern", duration: "30:00" },
-        { title: "Higher-Order Components (HOCs)", duration: "35:00" },
-      ],
-    },
-    {
-      title: "State Management Techniques",
-      lessons: [
-        { title: "Context API Deep Dive", duration: "40:00" },
-        { title: "Redux vs. Context + Hooks", duration: "45:00" },
-        { title: "Implementing a Custom State Management Solution", duration: "50:00" },
-      ],
-    },
-    {
-      title: "Performance Optimization",
-      lessons: [
-        { title: "React.memo and useMemo", duration: "30:00" },
-        { title: "useCallback and Its Applications", duration: "35:00" },
-        { title: "Code Splitting and Lazy Loading", duration: "40:00" },
-      ],
-    },
-  ],
+// const courseData = {
+//   id: 1,
+//   title: "Advanced React Patterns and Best Practices",
+//   description: "Master advanced React concepts and patterns to build scalable and maintainable applications.",
+//   instructor: {
+//     name: "Sarah Johnson",
+//     avatar: "/placeholder.svg?text=SJ",
+//     bio: "Senior React Developer with 10+ years of experience in building large-scale applications.",
+//   },
+//   rating: 4.8,
+//   studentsEnrolled: 1520,
+//   lastUpdated: "2024-03-15",
+//   language: "English",
+//   price: 129.99,
+//   duration: "6 weeks",
+//   level: "Advanced",
+//   prerequisites: ["Basic React knowledge", "JavaScript proficiency", "ES6+ features understanding"],
+//   whatYoullLearn: [
+//     "Advanced component patterns",
+//     "State management techniques",
+//     "Performance optimization",
+//     "Testing strategies for React applications",
+//     "Server-side rendering and Next.js",
+//     "Custom hooks and their applications",
+//   ],
+//   curriculum: [
+//     {
+//       title: "Introduction to Advanced React Patterns",
+//       lessons: [
+//         { title: "Course Overview", duration: "10:00" },
+//         { title: "Setting Up the Development Environment", duration: "15:00" },
+//       ],
+//     },
+//     {
+//       title: "Component Composition Patterns",
+//       lessons: [
+//         { title: "Compound Components", duration: "25:00" },
+//         { title: "Render Props Pattern", duration: "30:00" },
+//         { title: "Higher-Order Components (HOCs)", duration: "35:00" },
+//       ],
+//     },
+//     {
+//       title: "State Management Techniques",
+//       lessons: [
+//         { title: "Context API Deep Dive", duration: "40:00" },
+//         { title: "Redux vs. Context + Hooks", duration: "45:00" },
+//         { title: "Implementing a Custom State Management Solution", duration: "50:00" },
+//       ],
+//     },
+//     {
+//       title: "Performance Optimization",
+//       lessons: [
+//         { title: "React.memo and useMemo", duration: "30:00" },
+//         { title: "useCallback and Its Applications", duration: "35:00" },
+//         { title: "Code Splitting and Lazy Loading", duration: "40:00" },
+//       ],
+//     },
+//   ],
+// }
+
+
+interface courseData{
+  name: string;
+  description: string;
+  level: string;
+  duration: number;
+  price: number;
+  creator: {
+    fullname: string;
+  };
+  thumbnail: string;
+  _id: string;
+
 }
 
-export default function CourseDetails({courseId}:{courseId: object}) {
+export default function CourseDetails({courseId}:{courseId: string}) {
   const [progress, setProgress] = useState(35)
+  const [data, setData] = useState([])
+  console.log(courseId);
+  
+  const getCourseData = async (courseId: string) => {
+    const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
+    const data = await response.json();
+    setData(data.course);
+    console.log(data);
+    
+  }
+  useEffect(() => {
+    getCourseData(courseId);
+  },[])
+  
 
   return (
     <div className="container mx-auto py-8">
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2 space-y-6">
-          <h1 className="text-3xl font-bold">{courseData.title}</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">{courseData.description}</p>
+          <h1 className="text-3xl font-bold">{data.name}</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">{data.description}</p>
           <div className="flex items-center space-x-4">
-            <Badge variant="secondary">{courseData.level}</Badge>
+            <Badge variant="secondary">{"Intermediate"}</Badge>
             <div className="flex items-center">
               <Star className="w-5 h-5 text-yellow-400 mr-1" />
-              <span>{courseData.rating}</span>
+              <span>{"4.5"}</span>
             </div>
             <div className="flex items-center">
               <Users className="w-5 h-5 mr-1" />
-              <span>{courseData.studentsEnrolled} students</span>
+              <span>{"12,000"} students</span>
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src={courseData.instructor.avatar} alt={courseData.instructor.name} />
-              <AvatarFallback>{courseData.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+              <UserCircle className="w-10 h-10" />
+              {/* <AvatarImage src={data?.creator?.avatar || "/placeholder.svg?text=SJ"} alt={data?.creator?.fullname} /> */}
+              {/* <AvatarFallback>{data.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback> */}
             </Avatar>
             <div>
-              <p className="font-semibold">{courseData.instructor.name}</p>
+              <p className="font-semibold">{data?.creator?.fullname}</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">Instructor</p>
             </div>
           </div>
         </div>
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">${courseData.price}</CardTitle>
+            <CardTitle className="text-2xl">{data?.price} INR</CardTitle>
             <CardDescription>Lifetime access</CardDescription>
           </CardHeader>
           <CardContent>
@@ -112,22 +142,22 @@ export default function CourseDetails({courseId}:{courseId: object}) {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Duration:</span>
-                <span className="font-semibold">{courseData.duration}</span>
+                <span className="font-semibold">{data.duration}</span>
               </div>
               <div className="flex justify-between">
                 <span>Language:</span>
-                <span className="font-semibold">{courseData.language}</span>
+                <span className="font-semibold">{"English"}</span>
               </div>
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <span>Last Updated:</span>
                 <span className="font-semibold">{courseData.lastUpdated}</span>
-              </div>
+              </div> */}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="overview" className="mt-12">
+      {/* <Tabs defaultValue="overview" className="mt-12">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
@@ -226,7 +256,7 @@ export default function CourseDetails({courseId}:{courseId: object}) {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
     </div>
   )
 }

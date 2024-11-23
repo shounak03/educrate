@@ -113,11 +113,11 @@ export default function ExploreCourses() {
                 <div className="mt-auto space-y-2 text-sm">
                   <div className="flex items-center">
                     <CircleUser className="w-4 h-4 mr-2 text-primary" />
-                    <span>{course?.creator?.fullname}</span>
+                    <span>Instructor: {course?.creator?.fullname}</span>
                   </div>
                   <div className="flex items-center">
                     <BookOpen className="w-4 h-4 mr-2 text-primary" />
-                    <span>{course.level}</span>
+                    <span>{"Intermediate"}</span>
                   </div>
                   <div className="flex items-center">
                     <Clock className="w-4 h-4 mr-2 text-primary" />
@@ -125,7 +125,7 @@ export default function ExploreCourses() {
                   </div>
                 </div>
               </CardContent>
-              <Link href={`/courses/${course.name}`}>
+              <Link href={`/courses/${course._id}`}>
                 <Button
                   className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 relative overflow-hidden group"
                 >

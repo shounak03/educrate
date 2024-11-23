@@ -1,4 +1,5 @@
-import connectDB from "@/lib/dbConnect";
+
+import { connectDB } from "@/lib/dbConnect";
 import { Course } from "@/models/courses.model";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,7 +35,7 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
         //     delete course.enrolledStudents;
         // }
 
-        return course;
+        return NextResponse.json({sucess:true,course:coursebyId},{status:200})
     } catch (error) {
         console.log(error);
         
