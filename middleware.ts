@@ -27,8 +27,8 @@ export default auth(async (request) => {
 
   if (!isAuthenticated) {
 
-    if (path.startsWith('/courses')) {
-      return NextResponse.redirect(new URL('/login', request.url))
+    if (path.startsWith(`/courses/`)) {
+      return NextResponse.redirect(new URL('/auth/login', request.url))
     }
 
 
@@ -37,7 +37,7 @@ export default auth(async (request) => {
     }
 
 
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
 
   if (path.startsWith('/admin')) {

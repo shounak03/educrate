@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from './ui/button'
 import { toast } from 'sonner' // Assuming you're using sonner for notifications
+import { useRouter } from 'next/navigation'
 
 function CreateCourse({adminId}:{adminId:string}) {
   const [courseTitle, setCourseTitle] = useState('')
@@ -16,6 +17,7 @@ function CreateCourse({adminId}:{adminId:string}) {
   const [thumbnail, setThumbnail] = useState<File | null>(null)
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -72,6 +74,7 @@ function CreateCourse({adminId}:{adminId:string}) {
       toast.error('Something went wrong while creating the course')
     } finally {
       setLoading(false)
+      // router.push(`/admin/course/${data.newCourse.id}`)
     }
   }
 

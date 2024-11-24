@@ -88,14 +88,21 @@ interface courseData{
 
 export default function CourseDetails({courseId}:{courseId: string}) {
   const [progress, setProgress] = useState(35)
-  const [data, setData] = useState([])
+  const [data, setData] =useState<courseData[]>([])
   console.log(courseId);
   
   const getCourseData = async (courseId: string) => {
-    const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
-    const data = await response.json();
-    setData(data.course);
-    console.log(data);
+    try {
+      const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
+      const data = await response.json();
+      setData(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      
+    }finally{
+      
+    }
     
   }
   useEffect(() => {
@@ -107,8 +114,8 @@ export default function CourseDetails({courseId}:{courseId: string}) {
     <div className="container mx-auto py-8">
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2 space-y-6">
-          <h1 className="text-3xl font-bold">{data.name}</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">{data.description}</p>
+          <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">{data?.course?.description}</p>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary">{"Intermediate"}</Badge>
             <div className="flex items-center">
@@ -127,14 +134,14 @@ export default function CourseDetails({courseId}:{courseId: string}) {
               {/* <AvatarFallback>{data.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback> */}
             </Avatar>
             <div>
-              <p className="font-semibold">{data?.creator?.fullname}</p>
+              <p className="font-semibold">{data?.course?.creator?.fullname}</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">Instructor</p>
             </div>
           </div>
         </div>
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">{data?.price} INR</CardTitle>
+            <CardTitle className="text-2xl">₹ {data?.course?.price}</CardTitle>
             <CardDescription>Lifetime access</CardDescription>
           </CardHeader>
           <CardContent>
@@ -142,7 +149,7 @@ export default function CourseDetails({courseId}:{courseId: string}) {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Duration:</span>
-                <span className="font-semibold">{data.duration}</span>
+                <span className="font-semibold">{data?.course?.duration}</span>
               </div>
               <div className="flex justify-between">
                 <span>Language:</span>

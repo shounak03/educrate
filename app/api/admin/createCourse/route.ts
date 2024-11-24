@@ -57,7 +57,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
         return NextResponse.json({ 
             success: true, 
-            newCourse, 
+            newCourse,
+            courseId : newCourse._id,
             message: "Course Created successfully" 
         }, { status: 200 });
 
