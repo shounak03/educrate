@@ -6,11 +6,11 @@ import InstructorDashboard from '@/components/instructor-dashboard'
 
 async function  page() {
     const session = await auth();
-    const instructorName = session?.user?.fullname;
-    console.log(instructorName);
+    const instructorId = session?.user?.id;
+    // console.log(session);
     
   return (
-    <InstructorDashboard name={instructorName as string} />
+    <InstructorDashboard creatorId={instructorId as string} />
   )
 }
 
