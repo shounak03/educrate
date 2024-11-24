@@ -9,6 +9,7 @@ import { loginHanlder } from "@/actions/login"
 import { FormError } from "./form-error"
 import { FormSuccess } from "./form-success"
 import {useRouter,redirect} from "next/navigation"
+import { toast } from "sonner"
 
 export const LoginForm = ()=>{
     const router = useRouter()
@@ -31,9 +32,11 @@ export const LoginForm = ()=>{
                 setSuccess("Logged-In Successfully")
                 router.refresh()
                 router.push("/")
+                toast.success("Logged-In Successfully")
             }
             else{
-                return setError("something went wrong");
+                setError("something went wrong");
+                toast.error("something went wrong")
             }
         }}>
         <CardContent className="space-y-4">
