@@ -1,10 +1,14 @@
+import AddContent from '@/components/add-content'
+import CourseDetails from '@/components/course-details'
+import React from 'react'
 
 const Page = ({ params: { courseId } }: { params: { courseId: string } }) => {
-    return (
-        <div>
-            <h1>Course: {courseId}</h1>
-        </div>
-    )
+  return (
+    <div className='mb-4'>
+        <CourseDetails courseId={courseId as string} />
+        <AddContent/>
+    </div>
+  )
 }
 
 export default Page

@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BookOpen, Clock, PlayCircle, Star, User, UserCircle, Users } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 // Mock data for the course
 // const courseData = {
@@ -72,7 +73,7 @@ import { BookOpen, Clock, PlayCircle, Star, User, UserCircle, Users } from 'luci
 // }
 
 
-interface courseData{
+interface courseData {
   name: string;
   description: string;
   level: string;
@@ -86,11 +87,12 @@ interface courseData{
 
 }
 
-export default function CourseDetails({courseId}:{courseId: string}) {
+export default function CourseDetails({ courseId }: { courseId: string }) {
   const [progress, setProgress] = useState(35)
-  const [data, setData] =useState<courseData[]>([])
+
+  const [data, setData] = useState<courseData[]>([])
   console.log(courseId);
-  
+
   const getCourseData = async (courseId: string) => {
     try {
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
@@ -99,16 +101,21 @@ export default function CourseDetails({courseId}:{courseId: string}) {
       console.log(data);
     } catch (error) {
       console.log(error);
-      
-    }finally{
-      
+
+    } finally {
+
     }
-    
+
   }
   useEffect(() => {
     getCourseData(courseId);
-  },[])
+  }, [])
+
+  const pathname = usePathname()
   
+  // Check if we're on a course detail page
+  const isCourseDetailPage = pathname.startsWith('/courses/') 
+
 
   return (
     <div className="container mx-auto py-8">
@@ -139,7 +146,8 @@ export default function CourseDetails({courseId}:{courseId: string}) {
             </div>
           </div>
         </div>
-        <Card>
+
+        { isCourseDetailPage && <Card>
           <CardHeader>
             <CardTitle className="text-2xl">₹ {data?.course?.price}</CardTitle>
             <CardDescription>Lifetime access</CardDescription>
@@ -161,7 +169,8 @@ export default function CourseDetails({courseId}:{courseId: string}) {
               </div> */}
             </div>
           </CardContent>
-        </Card>
+        </Card>}
+
       </div>
 
       {/* <Tabs defaultValue="overview" className="mt-12">
