@@ -4,6 +4,8 @@ import { GraduationCap } from 'lucide-react'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { auth, signOut } from '@/auth';
+import { toast } from 'sonner';
+import { Router } from 'next/router';
 
 interface users {
     role: string
@@ -55,6 +57,7 @@ export default async function Appbar() {
                                 action={async () => {
                                     "use server"
                                     await signOut()
+                                    toast.success("Logged-Out Successfully")
                                 }}
                             >
                                 <Link href="/auth/login">
