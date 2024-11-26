@@ -1,5 +1,40 @@
 import mongoose, { Schema } from "mongoose";
 
+const resourceSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    enum: ['pdf', 'document', 'video', 'other'],
+    default: 'other'
+  },
+  fileUrl: {
+    type: String,
+    required: true
+  }
+});
+
+const lectureSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  resources: [resourceSchema]
+});
+
+const moduleSchema = new Schema({
+  moduleTitle: {
+    type: String,
+    required: true
+  },
+  moduleDescription: {
+    type: String
+  },
+  lectures: [lectureSchema]
+});
+
 const courseContentSchema = new Schema(
   {
     course: {
@@ -8,53 +43,13 @@ const courseContentSchema = new Schema(
       required: true,
       unique: true
     },
-    modules: [
-      {
-        moduleTitle: {
-          type: String,
-          required: true,
-        },
-        moduleDescription: {
-          type: String,
-        },
-        lectures: [
-          {
-            title: {
-              type: String,
-              required: true,
-            },
-            content: {
-              type: String,
-              required: true,
-            },
-            videoUrl: {
-              type: String,
-            },
-            duration: {
-              type: Number, // duration in minutes
-            },
-            resources: [
-              {
-                name: {
-                  type: String,
-                },
-                fileUrl: {
-                  type: String,
-                },
-                type: {
-                  type: String,
-                  enum: ['pdf', 'document', 'spreadsheet', 'presentation', 'other']
-                }
-              }
-            ],
-          }
-        ]
-      }
-    ]
+    modules: [moduleSchema]
   },
   { 
     timestamps: true 
   }
 );
 
-export const CourseContent = mongoose.models.CourseContent || mongoose.model("CourseContent", courseContentSchema);
+export const CourseContent = 
+  mongoose.models.CourseContent || 
+  mongoose.model("CourseContent", courseContentSchema);
