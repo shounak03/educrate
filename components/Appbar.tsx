@@ -41,30 +41,31 @@ export default async function Appbar() {
                                     Dashboard
                                 </Link>
                                 <form
-                                action={async () => {
-                                    "use server"
-                                    await signOut()
-                                }}
-                            >
-                                <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
-                                    Logout
-                                </Button>
-                            </form>
+                                    action={async () => {
+                                        "use server"
+                                        await signOut({redirectTo: '/'})
+                                        toast.success("Logged-Out Successfully")
+                                    }}
+                                >
+                                    <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
+                                        Logout
+                                    </Button>
+                                </form>
 
                             </>
                         ) : (
                             <form
                                 action={async () => {
                                     "use server"
-                                    await signOut()
+                                    await signOut({redirectTo: '/'})
                                     toast.success("Logged-Out Successfully")
                                 }}
                             >
-                                <Link href="/auth/login">
+
                                     <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
                                         Logout
                                     </Button>
-                                </Link>
+
 
                             </form>
                         )
