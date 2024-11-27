@@ -3,13 +3,16 @@
 import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BookOpen, Clock, PlayCircle, Star, User, UserCircle, Users } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Progress } from './ui/progress'
+import { Accordion } from '@radix-ui/react-accordion'
+import { AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 
 // Mock data for the course
 // const courseData = {
@@ -86,11 +89,74 @@ interface courseData {
   _id: string;
 
 }
+const courseData = {
+  id: 1,
+  title: "Advanced React Patterns and Best Practices",
+  description: "Master advanced React concepts and patterns to build scalable and maintainable applications.",
+  instructor: {
+    name: "Sarah Johnson",
+    avatar: "/placeholder.svg?text=SJ",
+    bio: "Senior React Developer with 10+ years of experience in building large-scale applications.",
+  },
+  rating: 4.8,
+  studentsEnrolled: 1520,
+  lastUpdated: "2024-03-15",
+  language: "English",
+  price: 129.99,
+  duration: "6 weeks",
+  level: "Advanced",
+  prerequisites: ["Basic React knowledge", "JavaScript proficiency", "ES6+ features understanding"],
+  whatYoullLearn: [
+    "Advanced component patterns",
+    "State management techniques",
+    "Performance optimization",
+    "Testing strategies for React applications",
+    "Server-side rendering and Next.js",
+    "Custom hooks and their applications",
+  ],
+  curriculum: [
+    {
+      title: "Introduction to Advanced React Patterns",
+      lessons: [
+        { title: "Course Overview", duration: "10:00" },
+        { title: "Setting Up the Development Environment", duration: "15:00" },
+      ],
+    },
+    {
+      title: "Component Composition Patterns",
+      lessons: [
+        { title: "Compound Components", duration: "25:00" },
+        { title: "Render Props Pattern", duration: "30:00" },
+        { title: "Higher-Order Components (HOCs)", duration: "35:00" },
+      ],
+    },
+    {
+      title: "State Management Techniques",
+      lessons: [
+        { title: "Context API Deep Dive", duration: "40:00" },
+        { title: "Redux vs. Context + Hooks", duration: "45:00" },
+        { title: "Implementing a Custom State Management Solution", duration: "50:00" },
+      ],
+    },
+    {
+      title: "Performance Optimization",
+      lessons: [
+        { title: "React.memo and useMemo", duration: "30:00" },
+        { title: "useCallback and Its Applications", duration: "35:00" },
+        { title: "Code Splitting and Lazy Loading", duration: "40:00" },
+      ],
+    },
+  ],
+}
+
+
 
 export default function CourseDetails({ courseId }: { courseId: string }) {
-  const [progress, setProgress] = useState(35)
+
 
   const [data, setData] = useState<courseData[]>([])
+  const [progress, setProgress] = useState(35)
+
 
 
   const getCourseData = async (courseId: string) => {
@@ -98,6 +164,8 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
       const data = await response.json();
       setData(data);
+      console.log(data);
+      
     } catch (error) {
       console.log(error);
 
@@ -118,10 +186,11 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
 
   return (
     <div className="container mx-auto py-8">
+      
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2 space-y-6">
-          <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">{data?.course?.description}</p>
+          <h1 className="text-5xl font-bold">{data?.course?.name}</h1>
+          <p className="text-4xl text-gray-600 dark:text-gray-300">{data?.course?.description}</p>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary">{"Intermediate"}</Badge>
             <div className="flex items-center">
@@ -133,6 +202,13 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
               <span>{data?.enrolledStudents?.length || 0} students</span>
             </div>
           </div>
+              <div className="flex">
+                <span>Duration: </span>
+                <span className="font-semibold px-2 mb-2">{data?.course?.duration} hours</span>
+              </div>
+                <span>Language:</span>
+                <span className="font-semibold px-2">{"English"}</span>
+
           <div className="flex items-center space-x-4">
             <Avatar>
               <UserCircle className="w-10 h-10" />
@@ -140,42 +216,43 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
               {/* <AvatarFallback>{data.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback> */}
             </Avatar>
             <div>
-              <p className="font-semibold">{data?.course?.creator?.fullname}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Instructor</p>
+            <Link href={`/instructors/${data?.course?.creator?.fullname}`} className=" text-2xl uppercase hover:underline cursor-pointer">{data?.course?.creator?.fullname}</Link>
+              <p className="text-gray-500 dark:text-gray-400">Instructor</p>
             </div>
           </div>
         </div>
 
         { isCourseDetailPage && <Card>
           <CardHeader>
+                <Image
+                  src={data?.course?.thumbnail && data?.course?.thumbnail.startsWith('http') ? data?.course.thumbnail : "/course.png"}
+                  alt={data?.course?.name || "Course Thumbnnail"}
+                  width={400}
+                  height={200}
+                  className="rounded-t-lg object-cover"
+                  unoptimized={typeof data?.course?.thumbnail === 'string' && data?.course?.thumbnail.startsWith('http')}
+                />
+              </CardHeader>
+          <CardHeader>
             <CardTitle className="text-2xl">₹ {data?.course?.price}</CardTitle>
             <CardDescription>Lifetime access</CardDescription>
+            <CardDescription>Last Updated: {data?.course?.updatedAt.split('T')[0]}</CardDescription>
           </CardHeader>
           <CardContent>
             <Button className="w-full mb-4">Enroll Now</Button>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Duration:</span>
-                <span className="font-semibold">{data?.course?.duration}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Language:</span>
-                <span className="font-semibold">{"English"}</span>
-              </div>
-              {/* <div className="flex justify-between">
-                <span>Last Updated:</span>
-                <span className="font-semibold">{courseData.lastUpdated}</span>
-              </div> */}
-            </div>
           </CardContent>
         </Card>}
 
       </div>
 
-      {/* <Tabs defaultValue="overview" className="mt-12">
+      { isCourseDetailPage && 
+      
+      <>
+      <h1 className='text-3xl font-semibold mt-4'>What To Expect From This Course</h1>
+      <Tabs defaultValue="overview" className="mt-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+          <TabsTrigger value="curriculum">Content</TabsTrigger>
           <TabsTrigger value="instructor">Instructor</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
@@ -210,14 +287,14 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             </Card>
           </div>
         </TabsContent>
+
         <TabsContent value="curriculum">
           <Card>
             <CardHeader>
-              <CardTitle>Course Curriculum</CardTitle>
-              <CardDescription>Your progress: {progress}% complete</CardDescription>
+              <CardTitle>Course Contents</CardTitle>
             </CardHeader>
             <CardContent>
-              <Progress value={progress} className="mb-4" />
+              {/* <Progress value={progress} className="mb-4" /> */}
               <Accordion type="single" collapsible className="w-full">
                 {courseData.curriculum.map((section, index) => (
                   <AccordionItem value={`section-${index}`} key={index}>
@@ -241,6 +318,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             </CardContent>
           </Card>
         </TabsContent>
+
         <TabsContent value="instructor">
           <Card>
             <CardHeader>
@@ -250,7 +328,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
                   <AvatarFallback>{courseData.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle>{courseData.instructor.name}</CardTitle>
+                  <CardTitle className='uppercase'>{data?.course?.creator?.fullname}</CardTitle>
                   <CardDescription>Course Instructor</CardDescription>
                 </div>
               </div>
@@ -271,7 +349,10 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs> */}
+      </Tabs>
+      </>
+      }
+
     </div>
   )
 }
