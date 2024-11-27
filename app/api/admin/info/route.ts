@@ -1,5 +1,6 @@
 
 import { auth } from "@/auth";
+import { connectDB } from "@/lib/dbConnect";
 import { Course } from "@/models/courses.model";
 import User from "@/models/user.model";
 
@@ -118,6 +119,7 @@ export const getCreatorAnalytics = async (creatorId:string) => {
 // API route handler
 export async function GET(req: Request) {
     try {
+        connectDB()
         const session = await auth()
         const creatorId = session?.user?.id;
 
