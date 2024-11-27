@@ -22,10 +22,12 @@
     "@radix-ui/react-tabs": "^1.1.1",
     "@types/bcryptjs": "^2.4.6",
     "add": "^2.0.6",
+    "axios": "^1.7.8",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
+    "formidable": "^3.5.2",
     "lucide-react": "^0.454.0",
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.0",
@@ -43,6 +45,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
+    "@types/multer": "^1.4.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
