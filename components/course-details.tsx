@@ -91,14 +91,13 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
   const [progress, setProgress] = useState(35)
 
   const [data, setData] = useState<courseData[]>([])
-  console.log(courseId);
+
 
   const getCourseData = async (courseId: string) => {
     try {
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
       const data = await response.json();
       setData(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
 
@@ -131,7 +130,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             </div>
             <div className="flex items-center">
               <Users className="w-5 h-5 mr-1" />
-              <span>{"12,000"} students</span>
+              <span>{data?.enrolledStudents?.length || 0} students</span>
             </div>
           </div>
           <div className="flex items-center space-x-4">

@@ -6,7 +6,7 @@ const Page = ({ params: { courseId } }: { params: { courseId: string } }) => {
   return (
     <div className='mb-4'>
         <CourseDetails courseId={courseId as string} />
-        <AddContent/>
+        <AddContent courseId={courseId as string} />
     </div>
   )
 }

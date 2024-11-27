@@ -8,7 +8,7 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
     try {
         await connectDB();
         const courseId = req.nextUrl.searchParams.get("courseId");
-        console.log(courseId);
+        // console.log(courseId);
         
         if(!courseId)
             return NextResponse.json({success:false,message:"Course ID is required"},{status:400})
@@ -16,7 +16,7 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
         console.log("test 1");
         
         const course = await Course.findById(courseId)
-        console.log(course);
+        // console.log(course);
         
         if(!course)
             return NextResponse.json({success:false,message:"Course not found"},{status:404})

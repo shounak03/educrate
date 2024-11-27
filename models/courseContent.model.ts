@@ -3,7 +3,6 @@ import mongoose, { Schema } from "mongoose";
 const resourceSchema = new Schema({
   name: {
     type: String,
-    required: true
   },
   type: {
     type: String,
@@ -12,7 +11,7 @@ const resourceSchema = new Schema({
   },
   fileUrl: {
     type: String,
-    required: true
+    default:''
   }
 });
 
