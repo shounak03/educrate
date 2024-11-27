@@ -6,16 +6,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const uploadToCloudinary = async (file: string): Promise<string> => {
-  try {
-    const result = await cloudinary.uploader.upload(file, {
-      folder: 'course-thumbnails',
-      resource_type: 'auto',
-    });
-    return result.secure_url;
-  } catch (error) {
-    console.error('Error uploading to Cloudinary:', error);
-    throw new Error('Failed to upload image');
-  }
+export const uploadToCloudinary = async (buffer: Buffer, path: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: path,
+        resource_type: 'auto',
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result?.secure_url || '');
+      }
+    );
+
+    uploadStream.end(buffer);
+  });
 };
+
 

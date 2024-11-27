@@ -1,4 +1,7 @@
 import * as z from 'zod'
+import formidable from 'formidable';
+import { NextApiRequest } from 'next';
+import {IncomingForm} from 'formidable';
 
 export const loginSchema = z.object({
     email: z.string().email(),
@@ -18,6 +21,18 @@ export const CreateCourseSchema = z.object({
     thumbnail: z.string()
 })
 export const courseContentSchema = z.object({
-    lectures: z.string(),
-    docx: z.string()
+
+    moduleDescription:z.string(),
+    moduleTitle:z.string(),
+    lectures:z.array(z.object({
+        title:z.string(),
+        content:z.string(),
+        videoUrl:z.string(),
+        duration:z.number(),
+        resources:z.array(z.object({
+            name:z.string(),
+            fileUrl:z.string(),
+            type:z.string()
+        }))
+    }))
 })
