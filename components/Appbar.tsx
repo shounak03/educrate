@@ -54,13 +54,17 @@ export default async function Appbar() {
 
                             </>
                         ) : (
-                            <form
+                            <>
+                                <Link className="text-sm font-medium hover:underline underline-offset-4 mt-2" href="/myCourses">
+                                    My Courses
+                                </Link>
+                                <form
                                 action={async () => {
                                     "use server"
                                     await signOut({redirectTo: '/'})
                                     toast.success("Logged-Out Successfully")
                                 }}
-                            >
+                                >
 
                                     <Button size={"sm"} type='submit' variant={"outline"} className={"bg-primary text-primary-foreground hover:bg-white hover:text-black"}>
                                         Logout
@@ -68,6 +72,8 @@ export default async function Appbar() {
 
 
                             </form>
+                            
+                            </>
                         )
 
                     ) : (<>

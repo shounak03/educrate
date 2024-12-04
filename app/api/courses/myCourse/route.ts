@@ -1,15 +1,16 @@
 import { auth } from "@/auth";
-import { User } from "@/models/user.model";
+import User from "@/models/user.model";
+
 import { NextResponse , NextRequest} from "next/server";
 
-export const getMyCourses = async(req:NextRequest,res:NextResponse) => {
+export const GET = async(req:NextRequest,res:NextResponse) => {
 
     const session = await auth();
     if(!session?.user?.id)
         return NextResponse.json({success:false, message:"You must be logged in"},{status:400})
     try {
         //@ts-ignore
-        const userId = session.user._id;
+        const userId = session.user.id;
         if(!userId) {
             return NextResponse.json({success:false,message:"User ID is required"},{status:404})
         }
