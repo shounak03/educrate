@@ -6,75 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookOpen, Clock, PlayCircle, Star, User, UserCircle, Users } from 'lucide-react'
+import { BookOpen, PlayCircle, Star, UserCircle, Users } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Progress } from './ui/progress'
 import { Accordion } from '@radix-ui/react-accordion'
 import { AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
-
-// Mock data for the course
-// const courseData = {
-//   id: 1,
-//   title: "Advanced React Patterns and Best Practices",
-//   description: "Master advanced React concepts and patterns to build scalable and maintainable applications.",
-//   instructor: {
-//     name: "Sarah Johnson",
-//     avatar: "/placeholder.svg?text=SJ",
-//     bio: "Senior React Developer with 10+ years of experience in building large-scale applications.",
-//   },
-//   rating: 4.8,
-//   studentsEnrolled: 1520,
-//   lastUpdated: "2024-03-15",
-//   language: "English",
-//   price: 129.99,
-//   duration: "6 weeks",
-//   level: "Advanced",
-//   prerequisites: ["Basic React knowledge", "JavaScript proficiency", "ES6+ features understanding"],
-//   whatYoullLearn: [
-//     "Advanced component patterns",
-//     "State management techniques",
-//     "Performance optimization",
-//     "Testing strategies for React applications",
-//     "Server-side rendering and Next.js",
-//     "Custom hooks and their applications",
-//   ],
-//   curriculum: [
-//     {
-//       title: "Introduction to Advanced React Patterns",
-//       lessons: [
-//         { title: "Course Overview", duration: "10:00" },
-//         { title: "Setting Up the Development Environment", duration: "15:00" },
-//       ],
-//     },
-//     {
-//       title: "Component Composition Patterns",
-//       lessons: [
-//         { title: "Compound Components", duration: "25:00" },
-//         { title: "Render Props Pattern", duration: "30:00" },
-//         { title: "Higher-Order Components (HOCs)", duration: "35:00" },
-//       ],
-//     },
-//     {
-//       title: "State Management Techniques",
-//       lessons: [
-//         { title: "Context API Deep Dive", duration: "40:00" },
-//         { title: "Redux vs. Context + Hooks", duration: "45:00" },
-//         { title: "Implementing a Custom State Management Solution", duration: "50:00" },
-//       ],
-//     },
-//     {
-//       title: "Performance Optimization",
-//       lessons: [
-//         { title: "React.memo and useMemo", duration: "30:00" },
-//         { title: "useCallback and Its Applications", duration: "35:00" },
-//         { title: "Code Splitting and Lazy Loading", duration: "40:00" },
-//       ],
-//     },
-//   ],
-// }
-
 
 interface courseData {
   name: string;
@@ -89,6 +26,7 @@ interface courseData {
   _id: string;
 
 }
+
 const courseData = {
   id: 1,
   title: "Advanced React Patterns and Best Practices",
@@ -155,7 +93,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
 
 
   const [data, setData] = useState<courseData[]>([])
-  const [progress, setProgress] = useState(35)
+  // const [moduleData, setModuleData] = useState([])
 
 
 
@@ -164,23 +102,21 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
       const data = await response.json();
       setData(data);
-      console.log(data);
-      
+      console.log(data.courseModules);
     } catch (error) {
       console.log(error);
-
     } finally {
 
     }
-
   }
+
   useEffect(() => {
     getCourseData(courseId);
-  }, [])
+  }, []);
 
   const pathname = usePathname()
   
-  // Check if we're on a course detail page
+
   const isCourseDetailPage = pathname.startsWith('/courses/') 
 
 
@@ -190,12 +126,12 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2 space-y-6">
           <h1 className="text-5xl font-bold">{data?.course?.name}</h1>
-          <p className="text-4xl text-gray-600 dark:text-gray-300">{data?.course?.description}</p>
+          <p className="text-3xl text-gray-600 dark:text-gray-300">{data?.course?.description}</p>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary">{"Intermediate"}</Badge>
             <div className="flex items-center">
               <Star className="w-5 h-5 text-yellow-400 mr-1" />
-              <span>{"4.5"}</span>
+              <span>{data?.course?.ratings?.length}</span>
             </div>
             <div className="flex items-center">
               <Users className="w-5 h-5 mr-1" />
@@ -212,11 +148,9 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
           <div className="flex items-center space-x-4">
             <Avatar>
               <UserCircle className="w-10 h-10" />
-              {/* <AvatarImage src={data?.creator?.avatar || "/placeholder.svg?text=SJ"} alt={data?.creator?.fullname} /> */}
-              {/* <AvatarFallback>{data.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback> */}
             </Avatar>
             <div>
-            <Link href={`/instructors/${data?.course?.creator?.fullname}`} className=" text-2xl uppercase hover:underline cursor-pointer">{data?.course?.creator?.fullname}</Link>
+            <Link href={`/instructors/${data?.course?.creator?.fullname}`} className=" text-2xl hover:underline cursor-pointer capitalize">{data?.course?.creator?.fullname}</Link>
               <p className="text-gray-500 dark:text-gray-400">Instructor</p>
             </div>
           </div>
@@ -289,31 +223,38 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
         </TabsContent>
 
         <TabsContent value="curriculum">
-          <Card>
-            <CardHeader>
-              <CardTitle>Course Contents</CardTitle>
-            </CardHeader>
+          <Card><CardHeader><CardTitle>Course Contents</CardTitle></CardHeader>
             <CardContent>
-              {/* <Progress value={progress} className="mb-4" /> */}
               <Accordion type="single" collapsible className="w-full">
-                {courseData.curriculum.map((section, index) => (
-                  <AccordionItem value={`section-${index}`} key={index}>
-                    <AccordionTrigger>{section.title}</AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="space-y-2">
-                        {section.lessons.map((lesson, lessonIndex) => (
-                          <li key={lessonIndex} className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              <PlayCircle className="w-5 h-5 mr-2 text-primary" />
-                              <span>{lesson.title}</span>
-                            </div>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">{lesson.duration}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
+                
+                {data?.courseModules?.length > 0 ? 
+                
+                  (data.courseModules.map((section, index) => (
+                    <AccordionItem value={`section-${index}`} key={index}>
+                      <AccordionTrigger>
+                        {section.moduleTitle}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                      <p className='m-2'>{section.moduleDescription}</p>
+                        <ul className="space-y-2 mt-2">
+                          {section.lectures.map((lesson, lessonIndex) => (
+                            <li key={lessonIndex} className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <PlayCircle className="w-5 h-5 mr-2 text-primary" />
+                                <span>{lesson.title}</span>
+                              </div>
+                              <span className="text-sm text-gray-500 dark:text-gray-400">{lesson.duration}</span>
+                            </li>
+                          ))} 
+                        </ul> 
+                      </AccordionContent>
+                    </AccordionItem>
+                ))) : (
+                 <AccordionContent>
+                  <p>No content available</p>
+                  </AccordionContent>
+                )}
+
               </Accordion>
             </CardContent>
           </Card>
@@ -328,7 +269,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
                   <AvatarFallback>{courseData.instructor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle className='uppercase'>{data?.course?.creator?.fullname}</CardTitle>
+                  <CardTitle className='capitalize'>{data?.course?.creator?.fullname}</CardTitle>
                   <CardDescription>Course Instructor</CardDescription>
                 </div>
               </div>
@@ -338,15 +279,25 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             </CardContent>
           </Card>
         </TabsContent>
+        
         <TabsContent value="reviews">
           <Card>
             <CardHeader>
               <CardTitle>Student Reviews</CardTitle>
-              <CardDescription>Course rating: {courseData.rating} out of 5 stars</CardDescription>
+              <CardDescription>Course rating: {data?.course?.ratings?.length} / 5</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>Reviews content would go here. This section can be expanded to include actual review components.</p>
-            </CardContent>
+            {data?.course?.reviews?.length > 0 ? (
+              data.course.reviews.map((review: string, i: number) => (
+                <CardContent key={i}>
+                  <p>{review}</p>
+                </CardContent>
+              ))
+              ) : (
+              <CardContent>
+                <p>No reviews yet</p>
+              </CardContent>
+            )}
+
           </Card>
         </TabsContent>
       </Tabs>
