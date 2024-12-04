@@ -14,19 +14,7 @@ import { Accordion } from '@radix-ui/react-accordion'
 import { AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import {GridLoader} from 'react-spinners'
 
-// interface courseData {
-//   name: string;
-//   description: string;
-//   level: string;
-//   duration: number;
-//   price: number;
-//   creator: {
-//     fullname: string;
-//   };
-//   thumbnail: string;
-//   _id: string;
 
-// }
 interface Instructor {
   name: string;
   avatar: string;
@@ -36,7 +24,17 @@ interface Instructor {
 interface Lesson {
   title: string;
   duration: string;
+  resources: Resource[];
 }
+
+interface Resource {
+  name: string;
+  url: string;
+  type: string;
+  description: string;
+  thumbnail: string;
+  _id: string;
+  }
 
 interface Section {
   title: string;
@@ -176,7 +174,7 @@ export default function CourseDetails({ courseId }: CourseDetailsProps) {
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
       const data = await response.json();
       setData(data);
-      console.log(data.courseModules.length);
+      console.log(data.courseModules);
     } catch (error) {
       console.log(error);
     } finally {
@@ -262,7 +260,9 @@ export default function CourseDetails({ courseId }: CourseDetailsProps) {
             <CardDescription>Last Updated: {data?.course?.updatedAt.split('T')[0]}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button className="w-full mb-4">Enroll Now</Button>
+            <Link href={`/courses/purchase/${courseId}`}>
+              <Button className="w-full mb-4">Enroll Now</Button>
+            </Link>
           </CardContent>
         </Card>}
 
@@ -324,13 +324,16 @@ export default function CourseDetails({ courseId }: CourseDetailsProps) {
                         {section.moduleTitle}
                       </AccordionTrigger>
                       <AccordionContent>
-                      <p className='m-2'>{section.moduleDescription}</p>
                         <ul className="space-y-2 mt-2">
+                          <p className='mb-2'>{section.moduleDescription}</p>
                           {section.lectures.map((lesson:Lesson, lessonIndex:number) => (
                             <li key={lessonIndex} className="flex items-center justify-between">
                               <div className="flex items-center">
                                 <PlayCircle className="w-5 h-5 mr-2 text-primary" />
-                                <span>{lesson.title}</span>
+                                {lesson.resources.map((res:Resource, resIndex:number) => (
+                                  
+                                  <span key={resIndex}>{res?.name}</span>
+                                ))}
                               </div>
                               <span className="text-sm text-gray-500 dark:text-gray-400">{lesson.duration}</span>
                             </li>
