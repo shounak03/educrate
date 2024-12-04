@@ -19,12 +19,9 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
             })
             .lean(); 
         
-        // Use findOne instead of find to get a single document
-        const courseContent = await CourseContent.findOne({ course: courseId });
 
-        // If courseContent exists, get its modules
+        const courseContent = await CourseContent.findOne({ course: courseId });
         const courseModules = courseContent ? courseContent.modules : [];
-        console.log("modules - ", courseModules);
 
         return NextResponse.json({
             success: true, 

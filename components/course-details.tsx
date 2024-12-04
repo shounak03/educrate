@@ -12,20 +12,93 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Accordion } from '@radix-ui/react-accordion'
 import { AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
+import {GridLoader} from 'react-spinners'
 
-interface courseData {
+// interface courseData {
+//   name: string;
+//   description: string;
+//   level: string;
+//   duration: number;
+//   price: number;
+//   creator: {
+//     fullname: string;
+//   };
+//   thumbnail: string;
+//   _id: string;
+
+// }
+interface Instructor {
+  name: string;
+  avatar: string;
+  bio: string;
+}
+
+interface Lesson {
+  title: string;
+  duration: string;
+}
+
+interface Section {
+  title: string;
+  lessons: Lesson[];
+}
+
+interface Review {
+  content: string;
+  rating: number;
+  userId: string;
+  date: string;
+}
+
+interface Creator {
+  fullname: string;
+  _id: string;
+}
+
+interface CourseModule {
+  moduleTitle: string;
+  moduleDescription: string;
+  lectures: {
+    title: string;
+    duration: string;
+  }[];
+}
+
+interface Course {
+  _id: string;
   name: string;
   description: string;
   level: string;
   duration: number;
   price: number;
-  creator: {
-    fullname: string;
-  };
+  creator: Creator;
   thumbnail: string;
-  _id: string;
-
+  ratings: number[];
+  reviews: string[];
+  updatedAt: string;
 }
+
+interface CourseData {
+  course: Course;
+  courseModules: CourseModule[];
+  enrolledStudents: string[];
+}
+
+interface CourseDetailsProps {
+  courseId: string;
+}
+
+export type { 
+  Instructor, 
+  Lesson, 
+  Section, 
+  Review, 
+  Creator, 
+  CourseModule, 
+  Course, 
+  CourseData,
+  CourseDetailsProps 
+};
 
 const courseData = {
   id: 1,
@@ -89,24 +162,25 @@ const courseData = {
 
 
 
-export default function CourseDetails({ courseId }: { courseId: string }) {
+export default function CourseDetails({ courseId }: CourseDetailsProps) {
 
 
-  const [data, setData] = useState<courseData[]>([])
-  // const [moduleData, setModuleData] = useState([])
+  const [data, setData] = useState<CourseData | null>(null)
+  const [loading, setLoading] = useState(false)
 
 
 
   const getCourseData = async (courseId: string) => {
     try {
+      setLoading(true)
       const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
       const data = await response.json();
       setData(data);
-      console.log(data.courseModules);
+      console.log(data.courseModules.length);
     } catch (error) {
       console.log(error);
     } finally {
-
+      setLoading(false)
     }
   }
 
@@ -114,6 +188,21 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
     getCourseData(courseId);
   }, []);
 
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <GridLoader
+          color="#000000"
+          loading={true}
+          size={35}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
+  
   const pathname = usePathname()
   
 
@@ -227,9 +316,9 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
                 
-                {data?.courseModules?.length > 0 ? 
+                {data?.courseModules?.length || 0 > 0 ? 
                 
-                  (data.courseModules.map((section, index) => (
+                  (data?.courseModules?.map((section: any, index: number) => (
                     <AccordionItem value={`section-${index}`} key={index}>
                       <AccordionTrigger>
                         {section.moduleTitle}
@@ -237,7 +326,7 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
                       <AccordionContent>
                       <p className='m-2'>{section.moduleDescription}</p>
                         <ul className="space-y-2 mt-2">
-                          {section.lectures.map((lesson, lessonIndex) => (
+                          {section.lectures.map((lesson:Lesson, lessonIndex:number) => (
                             <li key={lessonIndex} className="flex items-center justify-between">
                               <div className="flex items-center">
                                 <PlayCircle className="w-5 h-5 mr-2 text-primary" />
@@ -250,11 +339,8 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
                       </AccordionContent>
                     </AccordionItem>
                 ))) : (
-                 <AccordionContent>
                   <p>No content available</p>
-                  </AccordionContent>
                 )}
-
               </Accordion>
             </CardContent>
           </Card>
@@ -286,8 +372,9 @@ export default function CourseDetails({ courseId }: { courseId: string }) {
               <CardTitle>Student Reviews</CardTitle>
               <CardDescription>Course rating: {data?.course?.ratings?.length} / 5</CardDescription>
             </CardHeader>
-            {data?.course?.reviews?.length > 0 ? (
-              data.course.reviews.map((review: string, i: number) => (
+            {data?.course?.reviews?.length || 0 > 0 ? (
+
+              data?.course?.reviews?.map((review: string, i: number) => (
                 <CardContent key={i}>
                   <p>{review}</p>
                 </CardContent>

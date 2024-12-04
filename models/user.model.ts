@@ -18,6 +18,10 @@ const userSchema = new Schema({
         required: true,
         enum: ['creator', 'learner']
     },
+    aboutForCreators:{
+        type:String,
+        default:""
+    },
     purchasedCourses: [{
         course: {
             type: Schema.Types.ObjectId,
