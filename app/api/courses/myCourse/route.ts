@@ -9,7 +9,6 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
     if(!session?.user?.id)
         return NextResponse.json({success:false, message:"You must be logged in"},{status:400})
     try {
-        //@ts-ignore
         const userId = session.user.id;
         if(!userId) {
             return NextResponse.json({success:false,message:"User ID is required"},{status:404})

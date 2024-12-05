@@ -1,10 +1,14 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import axios from 'axios';
 import { BookOpen, CircleUser, Clock } from 'lucide-react';
 import Image from 'next/image';
+import { redirect, useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react'
 import { use } from 'react';
+import { toast } from 'sonner';
 
 interface CourseData {
     course: Course
@@ -27,13 +31,12 @@ const CoursePage = ({ params }: { params: Promise<{ courseId: string }> }) => {
 
     const { courseId } = use(params);
     const [data, setData] = useState<CourseData | null>(null);
-    
+
     useEffect(() => {
         const getCourseData = async (courseId: string) => {
             try {
                 const response = await fetch(`/api/courses/courseById?courseId=${courseId}`);
                 const res = await response.json();
-                console.log(res);
                 setData(res);
             } catch (error) {
                 console.log(error);
@@ -41,6 +44,19 @@ const CoursePage = ({ params }: { params: Promise<{ courseId: string }> }) => {
         }
         getCourseData(courseId);
     }, [courseId]); 
+
+    const purchaseCourse = async () => {
+        try {
+            const response = await axios.post(`/api/courses/purchase?courseId=${courseId}`);
+            console.log(response);
+        } catch (error) {
+            return toast.error("Error purchasing course");
+        }
+        finally{
+            toast.success("Course purchased successfully");
+            redirect(`/myCourses`);
+        }
+    }
 
     return (
         <div className='flex items-center justify-center h-screen'>
@@ -74,7 +90,7 @@ const CoursePage = ({ params }: { params: Promise<{ courseId: string }> }) => {
                             </div>
                         </div>
                     </CardContent>
-                    <Button>
+                    <Button onClick={purchaseCourse}>
                         Pay {data?.course?.price} INR
                     </Button>
                 </Card>
