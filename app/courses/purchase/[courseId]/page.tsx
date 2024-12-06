@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 interface CourseData {
     course: Course
 }
-
 interface Course {
     name: string,
     description: string,
@@ -30,6 +29,7 @@ interface Course {
 const CoursePage = ({ params }: { params: Promise<{ courseId: string }> }) => {
 
     const { courseId } = use(params);
+
     const [data, setData] = useState<CourseData | null>(null);
 
     useEffect(() => {

@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from './ui/button'
-import { toast } from 'sonner' // Assuming you're using sonner for notifications
+import { toast } from 'sonner' 
 import { useRouter } from 'next/navigation'
 
 function CreateCourse({adminId}:{adminId:string}) {
+
   const [courseTitle, setCourseTitle] = useState('')
   const [courseDescription, setCourseDescription] = useState('')
   const [courseDuration, setCourseDuration] = useState('')

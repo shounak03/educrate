@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { PlusCircle, X, FileText, Video } from 'lucide-react'
+import { PlusCircle, X } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface Resource {
@@ -42,14 +42,14 @@ function AddContent({ courseId }: { courseId: string }) {
       if (response.data.courseContent) {
         setExistingContent(response.data.courseContent);
         // Convert existing content to frontend format
-        const formattedModules = response.data.courseContent.modules.map((module) => ({
+        const formattedModules = response.data.courseContent.modules.map((module:any) => ({
           id: module._id || Date.now().toString(),
           title: module.moduleTitle,
           description: module.moduleDescription,
-          lectures: module.lectures.map((lecture) => ({
+          lectures: module.lectures.map((lecture:any) => ({
             id: lecture._id || Date.now().toString(),
             title: lecture.title,
-            resources: lecture.resources.map((resource) => ({
+            resources: lecture.resources.map((resource:any) => ({
               id: resource._id || Date.now().toString(),
               name: resource.name,
               type: resource.type,
@@ -153,11 +153,11 @@ function AddContent({ courseId }: { courseId: string }) {
   }
 
   const addResource = (moduleId: string, lectureId: string) => {
-    setContentModules(contentModules.map(module => {
+    setContentModules(contentModules.map((module:any) => {
       if (module.id === moduleId) {
         return {
           ...module,
-          lectures: module.lectures.map(lecture => {
+          lectures: module.lectures.map((lecture:any) => {
             if (lecture.id === lectureId) {
               return {
                 ...lecture,

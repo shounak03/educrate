@@ -1,9 +1,10 @@
-import CourseDetails from "@/components/course-details"
+import {CourseContent} from "@/components/course-content"
+
 
 const Page = ({ params: { courseId } }: { params: { courseId: string } }) => {
     return (
         <div>
-            <CourseDetails courseId={courseId as string} />
+            <CourseContent params={Promise.resolve({ courseId })} />
         </div>
     )
 }

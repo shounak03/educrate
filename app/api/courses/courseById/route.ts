@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async(req:NextRequest,res:NextResponse) => {
     try {
         const courseId = req.nextUrl.searchParams.get("courseId");
-
-        console.log("id - ", courseId);
         
         if (!courseId) {
             return NextResponse.json({ success: false, message: 'Course ID is required' }, { status: 400 });
@@ -30,8 +28,6 @@ export const GET = async(req:NextRequest,res:NextResponse) => {
         }, { status: 200 });
 
     } catch (error) {
-        console.log(error);
-        
         return NextResponse.json({
             success: false, 
             message: "Something went wrong", 
