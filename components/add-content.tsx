@@ -69,7 +69,7 @@ function AddContent({ courseId }: { courseId: string }) {
     if (courseId) {
       fetchExistingContent();
     }
-  }, [courseId]);
+  }, []);
 
   const handleSubmit = async () => {
     try {

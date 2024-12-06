@@ -1,8 +1,8 @@
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { CredentialsSignin } from "next-auth";
+
 
 interface formErrorProps{
-    message?:String 
+    message?:string 
 }
 
 export const FormError = ({message}:formErrorProps) =>{

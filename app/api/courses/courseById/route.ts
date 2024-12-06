@@ -2,7 +2,7 @@ import { CourseContent } from "@/models/courseContent.model";
 import { Course } from "@/models/courses.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async(req:NextRequest,res:NextResponse) => {
+export async function GET (req:NextRequest) {
     try {
         const courseId = req.nextUrl.searchParams.get("courseId");
         

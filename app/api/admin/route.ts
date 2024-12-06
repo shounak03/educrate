@@ -4,7 +4,7 @@ import { courseContentSchema } from "@/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export const Get =async (req:NextRequest, res:NextResponse) => {
+export async function GET (req:NextRequest) { 
 
     const session = await auth();
     if(!session?.user?.id)

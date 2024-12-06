@@ -2,9 +2,7 @@ import { connectDB } from "@/lib/dbConnect";
 import {Course}  from "@/models/courses.model"; 
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (
-    req: NextRequest,
-    res: NextResponse,) => {
+export async function GET (req:NextRequest) {
     try {
         connectDB();
         const courses = await Course.aggregate([

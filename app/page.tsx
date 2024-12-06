@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, GraduationCap, LayoutDashboard, Moon, Star, Sun, Users } from "lucide-react"
+import { BookOpen, LayoutDashboard, Star, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 

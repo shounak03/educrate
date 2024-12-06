@@ -5,9 +5,9 @@ import { Course } from "@/models/courses.model";
 import { parseMultipartForm } from '@/utils/multer';
 import { uploadToCloudinary } from "@/utils/cloudinary";
 
-import { NextApiRequest, NextApiResponse } from "next";
+
 import { NextRequest, NextResponse } from "next/server";
-import { warnOptionHasBeenMovedOutOfExperimental } from "next/dist/server/config";
+
 
 // export const config = {
 //   api: {
@@ -15,7 +15,7 @@ import { warnOptionHasBeenMovedOutOfExperimental } from "next/dist/server/config
 //   },
 // };
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
+export  async function GET   (req: NextRequest) {
 
   const session = await auth();
   if (!session?.user?.id)

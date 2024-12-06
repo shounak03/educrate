@@ -4,15 +4,18 @@ import { authConfig } from '@/auth.config';
 import { USER_LOGIN_REDIRECT, ADMIN_LOGIN_REDIRECT, publicRoutes } from '@/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from './auth';
+import { user } from './authSession';
 
-// const { auth } = NextAuth(authConfig);
+
 
 export default auth(async (request) => {
-    //  const { nextUrl } = req;
-    const session = await auth();
-    const userRole = session?.user?.role;
+
+    const userRole = await user();
+
+
+    
     const isAuthenticated = !!request.auth;
-    // console.log(userRole);
+
     
     const path = request.nextUrl.pathname
 
@@ -58,4 +61,11 @@ export default auth(async (request) => {
 
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+    runtime: "nodejs",
+    unstable_allowDynamic: [
+        // allows a single file
+        "/src/db/lib/dbConnect.js",
+        // use a glob to allow anything in the function-bind 3rd party module
+        "/node_modules/mongoose/dist/**",
+    ],
 };

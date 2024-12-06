@@ -1,6 +1,10 @@
+"use server"
 import CourseDetails from "@/components/course-details"
 
-const Page = ({ params: { courseId } }: { params: { courseId: string } }) => {
+
+  
+  const Page = async({ params }) => {
+    const {courseId} = await params
     return (
         <div>
             <CourseDetails courseId={courseId as string} />

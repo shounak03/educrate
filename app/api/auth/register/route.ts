@@ -5,7 +5,7 @@ import  User  from "@/models/user.model";
 import {connectDB} from "@/lib/dbConnect";
 
 
-export const POST = async (req: Request, res: NextResponse) => {
+export async function POST  (req: Request) {
     try {
         await connectDB();
         

@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
               hostname: '**', // This allows all https image URLs
             }
           ]
-    }
+    },
 };
 
 export default nextConfig;

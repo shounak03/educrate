@@ -2,7 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import mongoose from "mongoose";
 
 type ConnectionObj = {
-    isConnected?: Number;
+    isConnected?: number;
 }
 
 const connection: ConnectionObj = {}
@@ -40,7 +40,7 @@ const options = {
 if (process.env.NODE_ENV === "development") {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  let globalWithMongo = global as typeof globalThis & {
+  const globalWithMongo = global as typeof globalThis & {
     _mongoClient?: MongoClient
   }
  

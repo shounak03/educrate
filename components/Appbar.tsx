@@ -15,7 +15,6 @@ export default async function Appbar() {
     const session = await auth();
 
     const user = session?.user?.id;
-    //@ts-ignore
     const userRole = session?.user?.role
 
 

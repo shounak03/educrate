@@ -1,7 +1,8 @@
 import {CourseContent} from "@/components/course-content"
 
 
-const Page = ({ params: { courseId } }: { params: { courseId: string } }) => {
+const Page = async({ params }) => {
+    const {courseId} = await params
     return (
         <div>
             <CourseContent params={Promise.resolve({ courseId })} />

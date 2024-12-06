@@ -184,7 +184,7 @@ export default function CourseDetails({ courseId }: CourseDetailsProps) {
 
   useEffect(() => {
     getCourseData(courseId);
-  }, []);
+  }, [courseId]);
 
 
   if (loading) {

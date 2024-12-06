@@ -3,7 +3,7 @@ import { Course } from "@/models/courses.model";
 import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async(req:NextRequest,res:NextResponse) => {
+export async function POST (req:NextRequest) {
 
     const session = await auth();
     if(!session?.user?.id)

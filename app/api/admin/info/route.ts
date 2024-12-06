@@ -11,7 +11,7 @@ const calculateGrowthPercentage = (currentValue:any, previousValue:any) => {
     return (((currentValue - previousValue) / previousValue) * 100).toFixed(1);
 };
 
-export const getCreatorAnalytics = async (creatorId:string) => {
+const getCreatorAnalytics = async (creatorId:string) => {
     try {
         // Get creator details
         const creator = await User.findById(creatorId);
